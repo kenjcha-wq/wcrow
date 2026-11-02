@@ -1044,6 +1044,171 @@
       color: var(--color-text-subtle);
       font-family: var(--font-serif);
       font-size: 0.95rem;
+    }/* ==========================================================================
+       移动端与平板自适应增强（追加层，不修改任何桌面端原样式）
+       ========================================================================== */
+
+    /* 1. 全局触控与滚动防溢出兜底 */
+    html, body {
+      overflow-x: hidden;
+      min-height: 100dvh;
+    }
+
+    /* 2. 平板端优化 (768px - 1023px) */
+    @media (max-width: 1023px) {
+      .home-viewport {
+        padding: 36px 20px 28px;
+        min-height: calc(100dvh - var(--nav-height, 58px));
+      }
+      .home-main-title {
+        font-size: 2.25rem;
+      }
+      .inner-page-wrap {
+        padding: 24px 20px 70px 20px;
+      }
+    }
+
+    /* 3. 手机端优化 (<= 767px) */
+    @media (max-width: 767px) {
+      .nav-inner {
+        padding: 0 16px;
+      }
+      .nav-brand {
+        font-size: 1.08rem;
+        letter-spacing: 1.5px;
+      }
+      .nav-links {
+        gap: 12px;
+        font-size: 0.88rem;
+      }
+
+      /* 首页竖屏背景与构图收拢 */
+      .home-viewport {
+        padding: 24px 16px 24px;
+        justify-content: space-around;
+        min-height: calc(100dvh - var(--nav-height, 54px));
+      }
+      .home-bg-artwork-layer {
+        background-position: center 30%;
+        opacity: 0.2;
+      }
+      body.dark-mode .home-bg-artwork-layer {
+        opacity: 0.16;
+      }
+      .home-stage-header {
+        margin-bottom: 24px;
+      }
+      .home-main-title {
+        font-size: 1.95rem;
+        letter-spacing: 3.5px;
+        margin-bottom: 8px;
+      }
+      .home-sub-slogan {
+        font-size: 0.86rem;
+        letter-spacing: 1.8px;
+      }
+      .editorial-search-capsule {
+        padding: 8px 16px;
+        border-radius: 26px;
+      }
+      .editorial-search-input {
+        font-size: 0.96rem;
+      }
+      .home-bottom-feature {
+        padding-top: 16px;
+        font-size: 0.82rem;
+        line-height: 1.4;
+      }
+      .feature-work-link {
+        word-break: break-all;
+      }
+
+      /* 目录页长标题与日期防挤压折行 */
+      .catalog-title {
+        font-size: 1.5rem;
+      }
+      .work-item-row {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 14px 0;
+        gap: 6px;
+      }
+      .work-title-link {
+        font-size: 1.05rem;
+        line-height: 1.5;
+      }
+      .work-meta-right {
+        font-size: 0.78rem;
+      }
+
+      /* 阅读页移动端边距与排版 */
+      .reading-article {
+        margin-top: 16px;
+      }
+      .article-header {
+        margin-bottom: 24px;
+        padding-bottom: 20px;
+      }
+      .article-main-title {
+        font-size: 1.55rem;
+        letter-spacing: 0.5px;
+        line-height: 1.35;
+      }
+      .article-body {
+        font-size: 1.05rem;
+        line-height: 1.95;
+        letter-spacing: 0.3px;
+      }
+      .article-body p {
+        margin: 1.4em 0;
+      }
+      .article-end-actions {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+        gap: 12px;
+      }
+      .article-end-actions a {
+        justify-content: center;
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: 4px;
+        padding: 8px 12px;
+      }
+
+      /* 浮动写信胶囊触控与弹窗高度防遮挡 */
+      .floating-write-btn {
+        bottom: 16px;
+        right: 16px;
+        padding: 6px 14px;
+        font-size: 0.82rem;
+      }
+      .modal-card {
+        max-height: 90dvh;
+        overflow-y: auto;
+      }
+    }
+
+    /* 4. 超小屏 (<= 360px) 微调 */
+    @media (max-width: 360px) {
+      .home-main-title {
+        font-size: 1.7rem;
+        letter-spacing: 2px;
+      }
+      .home-sub-slogan {
+        font-size: 0.8rem;
+        letter-spacing: 1.2px;
+      }
+      .nav-links {
+        gap: 8px;
+      }
+      .article-main-title {
+        font-size: 1.4rem;
+      }
+      .article-body {
+        font-size: 0.98rem;
+        line-height: 1.9;
+      }
     }
   </style>
 </head>
