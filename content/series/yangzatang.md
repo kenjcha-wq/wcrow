@@ -6,7 +6,7 @@ series: "兰州美食图鉴"
 orderInSeries: 4
 date: "2026-10-16"
 status: "published"
-coverImage: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1200&q=85"
+coverImage: "/content/media/covers/yangzatang.jpg"
 tags: ["兰州","羊杂汤","黄河","过敏","大众浴池"]
 excerpt: ""
 relatedSlugs: ["tianpei-milk-tea","niunai-jidan-laozao","niuroumian","huimianpian"]

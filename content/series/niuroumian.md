@@ -6,7 +6,7 @@ series: "兰州美食图鉴"
 orderInSeries: 3
 date: "2026-10-14"
 status: "published"
-coverImage: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=1200&q=85"
+coverImage: "/content/media/covers/niuroumian.jpg"
 tags: ["兰州","牛肉面","华林山","韭叶","黑麦"]
 excerpt: ""
 relatedSlugs: ["tianpei-milk-tea","niunai-jidan-laozao","yangzatang","huimianpian"]

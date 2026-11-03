@@ -6,7 +6,7 @@ series: "兰州美食图鉴"
 orderInSeries: 2
 date: "2026-10-12"
 status: "published"
-coverImage: "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1200&q=85"
+coverImage: "/content/media/covers/niunai-jidan-laozao.jpg"
 tags: ["兰州","华林山","奇鸟形状录","葬礼","催款单"]
 excerpt: ""
 relatedSlugs: ["tianpei-milk-tea","niuroumian","yangzatang","huimianpian"]

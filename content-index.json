@@ -12,7 +12,7 @@
       "orderInSeries": 1,
       "date": "2026-10-10",
       "summary": "",
-      "coverImage": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=1200&q=85",
+      "coverImage": "/content/media/covers/tianpei-milk-tea.jpg",
       "tags": [
         "兰州",
         "甜醅奶茶",
@@ -38,7 +38,7 @@
       "orderInSeries": 2,
       "date": "2026-10-12",
       "summary": "",
-      "coverImage": "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1200&q=85",
+      "coverImage": "/content/media/covers/niunai-jidan-laozao.jpg",
       "tags": [
         "兰州",
         "华林山",
@@ -64,7 +64,7 @@
       "orderInSeries": 3,
       "date": "2026-10-14",
       "summary": "",
-      "coverImage": "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=1200&q=85",
+      "coverImage": "/content/media/covers/niuroumian.jpg",
       "tags": [
         "兰州",
         "牛肉面",
@@ -90,7 +90,7 @@
       "orderInSeries": 4,
       "date": "2026-10-16",
       "summary": "",
-      "coverImage": "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1200&q=85",
+      "coverImage": "/content/media/covers/yangzatang.jpg",
       "tags": [
         "兰州",
         "羊杂汤",
@@ -116,7 +116,7 @@
       "orderInSeries": 5,
       "date": "2026-10-18",
       "summary": "",
-      "coverImage": "https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=1200&q=85",
+      "coverImage": "/content/media/covers/huimianpian.jpg",
       "tags": [
         "兰州",
         "公交车",
@@ -142,7 +142,7 @@
       "orderInSeries": 1,
       "date": "2026-10-20",
       "summary": "",
-      "coverImage": "https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=1200&q=85",
+      "coverImage": "/content/media/covers/cat-rice-in-convenience-store.jpg",
       "tags": [
         "井底",
         "猫饭",
@@ -165,7 +165,7 @@
       "orderInSeries": 1,
       "date": "2026-11-02",
       "summary": "",
-      "coverImage": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=85",
+      "coverImage": "/content/media/covers/nobody-knows-chapter-one.jpg",
       "tags": [
         "北京",
         "西直门",
@@ -188,7 +188,7 @@
       "orderInSeries": 2,
       "date": "2026-11-04",
       "summary": "",
-      "coverImage": "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1200&q=85",
+      "coverImage": "/content/media/covers/yigedianlaizigongjiaocheshangdemoshengren.jpg",
       "tags": [
         "兰州",
         "公交车",

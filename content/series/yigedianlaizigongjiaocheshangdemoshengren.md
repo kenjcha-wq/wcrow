@@ -6,7 +6,7 @@ series: "井底观察日志"
 orderInSeries: 2
 date: "2026-11-04"
 status: "published"
-coverImage: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1200&q=85"
+coverImage: "/content/media/covers/yigedianlaizigongjiaocheshangdemoshengren.jpg"
 tags: ["兰州", "公交车", "陌生人", "一格电"]
 excerpt: ""
 relatedSlugs: ["cat-rice-in-convenience-store"]

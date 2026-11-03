@@ -6,7 +6,7 @@ series: "井底观察日志"
 orderInSeries: 1
 date: "2026-10-20"
 status: "published"
-coverImage: "https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=1200&q=85"
+coverImage: "/content/media/covers/cat-rice-in-convenience-store.jpg"
 tags: ["井底","猫饭","便利店","孤独","深夜食堂"]
 excerpt: ""
 relatedSlugs: ["tianpei-milk-tea"]

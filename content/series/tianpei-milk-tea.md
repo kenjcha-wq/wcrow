@@ -6,7 +6,7 @@ series: "兰州美食图鉴"
 orderInSeries: 1
 date: "2026-10-10"
 status: "published"
-coverImage: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=1200&q=85"
+coverImage: "/content/media/covers/tianpei-milk-tea.jpg"
 tags: ["兰州","甜醅奶茶","村上春树","乐高","母亲"]
 excerpt: ""
 relatedSlugs: ["niunai-jidan-laozao","niuroumian","yangzatang","huimianpian"]

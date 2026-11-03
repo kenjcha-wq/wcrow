@@ -143,6 +143,14 @@
       transition: color var(--transition);
     }
 
+    .nav-letter-btn {
+      background: none;
+      border: none;
+      padding: 0;
+      font-family: inherit;
+      cursor: pointer;
+    }
+
     .nav-item:hover, .nav-item.active {
       color: var(--color-accent);
     }
@@ -3612,6 +3620,7 @@
       <nav class="site-nav" role="navigation" aria-label="全局导航">
         <a href="#/archive/all" class="nav-item" id="nav-archive">目录</a>
         <a href="#/about" class="nav-item" id="nav-about">关于</a>
+        <button type="button" class="nav-item nav-letter-btn" id="navLetterBtn" aria-label="给作者寄一封信">写信</button>
         <button id="themeToggleBtn" class="theme-toggle-btn" aria-label="切换浅色与深色模式">
           <span id="themeToggleText">浅色</span>
         </button>
@@ -3771,7 +3780,7 @@
         orderInSeries: 1,
         date: '2026-10-10',
         summary: '',
-        coverImage: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=1200&q=85',
+        coverImage: '/content/media/covers/tianpei-milk-tea.jpg',
         tags: ['兰州', '甜醅奶茶', '村上春树', '乐高', '母亲'],
         relatedSlugs: ['niunai-jidan-laozao', 'niuroumian', 'yangzatang', 'huimianpian'],
         status: 'published',
@@ -3946,7 +3955,7 @@
         orderInSeries: 2,
         date: '2026-10-12',
         summary: '',
-        coverImage: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1200&q=85',
+        coverImage: '/content/media/covers/niunai-jidan-laozao.jpg',
         tags: ['兰州', '华林山', '奇鸟形状录', '葬礼', '催款单'],
         relatedSlugs: ['tianpei-milk-tea', 'niuroumian', 'yangzatang', 'huimianpian'],
         status: 'published',
@@ -4016,7 +4025,7 @@
         orderInSeries: 3,
         date: '2026-10-14',
         summary: '',
-        coverImage: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=1200&q=85',
+        coverImage: '/content/media/covers/niuroumian.jpg',
         tags: ['兰州', '牛肉面', '华林山', '韭叶', '黑麦'],
         relatedSlugs: ['tianpei-milk-tea', 'niunai-jidan-laozao', 'yangzatang', 'huimianpian'],
         status: 'published',
@@ -4137,7 +4146,7 @@
         orderInSeries: 4,
         date: '2026-10-16',
         summary: '',
-        coverImage: 'https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1200&q=85',
+        coverImage: '/content/media/covers/yangzatang.jpg',
         tags: ['兰州', '羊杂汤', '黄河', '过敏', '大众浴池'],
         relatedSlugs: ['tianpei-milk-tea', 'niunai-jidan-laozao', 'niuroumian', 'huimianpian'],
         status: 'published',
@@ -4242,7 +4251,7 @@
         orderInSeries: 5,
         date: '2026-10-18',
         summary: '',
-        coverImage: 'https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=1200&q=85',
+        coverImage: '/content/media/covers/huimianpian.jpg',
         tags: ['兰州', '公交车', '华林山', '烩面片', '泡菜'],
         relatedSlugs: ['tianpei-milk-tea', 'niunai-jidan-laozao', 'niuroumian', 'yangzatang'],
         status: 'published',
@@ -4300,7 +4309,7 @@
         orderInSeries: 1,
         date: '2026-10-20',
         summary: '',
-        coverImage: 'https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=1200&q=85',
+        coverImage: '/content/media/covers/cat-rice-in-convenience-store.jpg',
         tags: ['井底', '猫饭', '便利店', '孤独', '深夜食堂'],
         relatedSlugs: ['tianpei-milk-tea'],
         status: 'published',
@@ -4337,7 +4346,7 @@
         orderInSeries: 1,
         date: '2026-11-02',
         summary: '',
-        coverImage: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=85',
+        coverImage: '/content/media/covers/nobody-knows-chapter-one.jpg',
         tags: ['北京', '西直门', '红嘴山鸦', '迪卡侬', '金鱼'],
         relatedSlugs: ['tianpei-milk-tea'],
         status: 'published',
@@ -5568,7 +5577,16 @@
           authSection.style.display = 'block';
           listSection.style.display = 'none';
           authError.style.display = 'block';
-          authError.textContent = err.message;
+          const msg = String(err && err.message ? err.message : '读取信件失败');
+          let hint = '';
+          if (/DATABASE_UNAVAILABLE|数据库尚未绑定/i.test(msg)) {
+            hint = '（处理办法：在 Cloudflare Pages 项目里绑定一个名为 DB 的 D1 数据库，见 docs/信件与后台-配置说明.md）';
+          } else if (/AUTH_NOT_CONFIGURED|ADMIN_SECRET/i.test(msg)) {
+            hint = '（处理办法：在 Pages 环境变量里添加 ADMIN_SECRET，然后用同一个密码登录）';
+          } else if (/UNAUTHORIZED|鉴权未通过/i.test(msg)) {
+            hint = '（密码不正确，请与 Pages 环境变量里的 ADMIN_SECRET 保持一致）';
+          }
+          authError.textContent = msg + hint;
         });
       }
 
@@ -5700,6 +5718,7 @@
       document.getElementById('letterCharCounter').textContent = '0 / 4000';
       const statusEl = document.getElementById('letterStatusBar');
       statusEl.className = 'letter-status-bar';
+      statusEl.textContent = '';
       statusEl.style.display = 'none';
 
       letterModal.classList.add('open');
@@ -5709,6 +5728,12 @@
     function closeLetterModal() {
       letterModal.classList.remove('open');
       letterModal.setAttribute('aria-hidden', 'true');
+    }
+
+    // 顶栏「写信」入口（全站可用）
+    const navLetterBtn = document.getElementById('navLetterBtn');
+    if (navLetterBtn) {
+      navLetterBtn.addEventListener('click', () => openLetterModal('', ''));
     }
 
     document.getElementById('closeLetterModalBtn').addEventListener('click', closeLetterModal);
@@ -5730,12 +5755,14 @@
       if (!content) {
         statusEl.className = 'letter-status-bar error';
         statusEl.textContent = '请先写下想说的话再寄出。';
+        statusEl.style.display = 'block';
         return;
       }
 
       if (senderEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(senderEmail)) {
         statusEl.className = 'letter-status-bar error';
         statusEl.textContent = '请填写有效的邮箱地址，或留空直接发送。';
+        statusEl.style.display = 'block';
         return;
       }
 
@@ -5758,12 +5785,20 @@
           })
         });
 
-        const result = await response.json();
+        // 后端异常时可能返回 404/500 的 HTML 页面，直接 json() 会抛错，这里做兜底
+        let result = null;
+        try {
+          result = await response.json();
+        } catch (parseErr) {
+          result = null;
+        }
 
-        if (response.ok && result.success) {
+        if (response.ok && result && result.success) {
           statusEl.className = 'letter-status-bar success';
           statusEl.textContent = result.message || '信件已成功送出。谢谢你的文字。';
+          statusEl.style.display = 'block';
           document.getElementById('letterContent').value = '';
+          document.getElementById('letterCharCounter').textContent = '0 / 4000';
           setTimeout(() => {
             closeLetterModal();
             submitBtn.disabled = false;
@@ -5771,13 +5806,17 @@
           }, 1800);
         } else {
           statusEl.className = 'letter-status-bar error';
-          statusEl.textContent = result.message || '寄送失败，请稍后重试。';
+          statusEl.textContent = (result && result.message)
+            ? result.message
+            : `寄送失败（HTTP ${response.status}）：后端接口暂不可用，请稍后重试。`;
+          statusEl.style.display = 'block';
           submitBtn.disabled = false;
           submitBtn.textContent = '寄出信件 𓅂';
         }
       } catch (err) {
         statusEl.className = 'letter-status-bar error';
-        statusEl.textContent = '网络通信异常或后端服务未就绪，未能寄出。';
+        statusEl.textContent = '网络异常，信件未能寄出：' + (err && err.message ? err.message : '请检查网络后重试。');
+        statusEl.style.display = 'block';
         submitBtn.disabled = false;
         submitBtn.textContent = '寄出信件 𓅂';
       }

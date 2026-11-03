@@ -6,7 +6,7 @@ series: "兰州美食图鉴"
 orderInSeries: 5
 date: "2026-10-18"
 status: "published"
-coverImage: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=1200&q=85"
+coverImage: "/content/media/covers/huimianpian.jpg"
 tags: ["兰州","公交车","华林山","烩面片","泡菜"]
 excerpt: ""
 relatedSlugs: ["tianpei-milk-tea","niunai-jidan-laozao","niuroumian","yangzatang"]

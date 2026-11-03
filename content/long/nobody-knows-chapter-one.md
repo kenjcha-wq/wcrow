@@ -6,7 +6,7 @@ series: "长篇连载"
 orderInSeries: 1
 date: "2026-11-02"
 status: "published"
-coverImage: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=85"
+coverImage: "/content/media/covers/nobody-knows-chapter-one.jpg"
 tags: ["北京","西直门","红嘴山鸦","迪卡侬","金鱼"]
 excerpt: ""
 relatedSlugs: ["tianpei-milk-tea"]
