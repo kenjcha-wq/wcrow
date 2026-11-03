@@ -3251,6 +3251,209 @@
         padding-top: 6px;
       }
     }
+    /* ==========================================================================
+       首页第八轮：移动端版面化（去掉卡片壳子，回归纸面排版）
+       ========================================================================== */
+    @media (max-width: 680px) {
+      .featured-magazine-tile {
+        border: none !important;
+        box-shadow: none !important;
+        background: transparent !important;
+        border-radius: 0 !important;
+        margin: 0 0 20px !important;
+      }
+
+      body.dark-mode .featured-magazine-tile,
+      body.dark-mode .tile-content-wrapper {
+        background-color: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
+
+      .tile-content-wrapper {
+        background: transparent !important;
+        border: none !important;
+        padding: 20px 0 0 !important;
+        gap: 0 !important;
+      }
+
+      .tile-text-block {
+        gap: 0 !important;
+      }
+
+      .tile-cover-wrapper {
+        height: 200px !important;
+        max-height: none !important;
+        aspect-ratio: auto !important;
+        border-radius: 2px !important;
+      }
+
+      .tile-kicker {
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+      }
+
+      .tile-kicker .tile-rule {
+        display: none !important;
+      }
+
+      .tile-badge {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        flex: 1 1 auto !important;
+        min-width: 0;
+        margin: 0 !important;
+        font-size: 0.75rem !important;
+        letter-spacing: 2px !important;
+        white-space: nowrap;
+      }
+
+      .tile-badge::after {
+        content: "";
+        flex: 1 1 auto;
+        min-width: 12px;
+        height: 1px;
+        background: var(--color-border);
+      }
+
+      .tile-kicker .tile-no {
+        flex: none;
+        font-size: 0.66rem !important;
+        letter-spacing: 1.5px !important;
+      }
+
+      .tile-work-title {
+        font-size: 1.45rem !important;
+        font-weight: 600 !important;
+        line-height: 1.4 !important;
+        letter-spacing: 0.02em !important;
+        margin: 12px 0 14px !important;
+      }
+
+      .tile-work-quote {
+        font-size: 0.9rem !important;
+        line-height: 1.75 !important;
+        letter-spacing: 0.01em !important;
+        margin: 0 0 16px !important;
+        -webkit-line-clamp: 3 !important;
+        color: var(--color-text-muted);
+      }
+
+      .tile-read-cue {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+        padding-top: 12px !important;
+        border-top: 1px solid var(--color-border-subtle) !important;
+        font-size: 0.8rem !important;
+        letter-spacing: 1px !important;
+        color: var(--color-text-muted);
+      }
+
+      .tile-read-cue .cue-arrow {
+        margin-left: 0 !important;
+      }
+
+      .home-categories-bar {
+        margin: 16px 0 20px !important;
+        padding-top: 0 !important;
+        border-top: none !important;
+      }
+
+      .home-categories-bar a {
+        padding: 4px 12px !important;
+      }
+
+      .home-categories-bar .divider {
+        height: 8px !important;
+        opacity: 0.8;
+      }
+
+      .home-footer-search-wrap {
+        margin: 0 auto !important;
+      }
+
+      .home-footer-search-wrap .editorial-search-capsule {
+        background: transparent !important;
+        border: none !important;
+        border-bottom: 1px solid var(--color-border) !important;
+        border-radius: 0 !important;
+        height: auto !important;
+        padding: 8px 0 !important;
+      }
+
+      .home-footer-search-wrap .editorial-search-input {
+        font-size: 0.85rem;
+      }
+
+      .home-footer-search-wrap .editorial-search-input::placeholder {
+        font-size: 0.75rem;
+      }
+
+      body.dark-mode .tile-work-title {
+        color: #f2ebe1 !important;
+      }
+
+      body.dark-mode .tile-work-quote {
+        color: #a9a29b !important;
+      }
+
+      body.dark-mode .tile-read-cue {
+        color: #a9a29b;
+        border-top-color: rgba(255, 255, 255, 0.08) !important;
+      }
+
+      body.dark-mode .tile-badge::after {
+        background: rgba(255, 255, 255, 0.14);
+      }
+    }
+
+    @media (max-width: 680px) and (max-height: 760px) {
+      .featured-magazine-tile {
+        margin-bottom: 12px !important;
+      }
+
+      .tile-cover-wrapper {
+        height: 150px !important;
+      }
+
+      .tile-content-wrapper {
+        padding-top: 12px !important;
+      }
+
+      .tile-work-title {
+        font-size: 1.2rem !important;
+        margin: 8px 0 10px !important;
+      }
+
+      .tile-work-quote {
+        font-size: 0.84rem !important;
+        line-height: 1.68 !important;
+        margin-bottom: 10px !important;
+        -webkit-line-clamp: 2 !important;
+      }
+
+      .tile-read-cue {
+        padding-top: 8px !important;
+        font-size: 0.72rem !important;
+      }
+
+      .home-categories-bar {
+        margin: 6px 0 12px !important;
+      }
+
+      .home-categories-bar a {
+        padding: 2px 10px !important;
+      }
+
+      .home-footer-search-wrap .editorial-search-capsule {
+        padding: 6px 0 !important;
+      }
+    }
+
   </style>
 </head>
 <body>
