@@ -3454,6 +3454,147 @@
       }
     }
 
+    /* ==========================================================================
+       首页第九轮：移动端极简去噪
+       - 隐藏中间的文章大标题（底部「每日精选」已承担入口，链接另有 aria-label）
+       - 干掉徽章延长线、翻阅前横线、检索下划线、每日精选上横线，改用留白分隔
+       - 让摘选成为版面主角（0.95rem / 行高 1.8 / 4 行）
+       ========================================================================== */
+    @media (max-width: 680px) {
+      /* 1. 去掉重复的大标题 */
+      .tile-work-title {
+        display: none !important;
+      }
+
+      /* 2. 徽章弱化成一行小注 */
+      .tile-badge {
+        font-size: 0.68rem !important;
+        letter-spacing: 1.5px !important;
+        color: var(--color-text-subtle) !important;
+      }
+
+      .tile-badge::after {
+        display: none !important;
+      }
+
+      .tile-kicker {
+        gap: 8px !important;
+      }
+
+      .tile-kicker .tile-no {
+        font-size: 0.62rem !important;
+        letter-spacing: 1.4px !important;
+        color: var(--color-text-subtle) !important;
+      }
+
+      /* 3. 摘选成为主角 */
+      .tile-work-quote {
+        font-size: 0.95rem !important;
+        line-height: 1.8 !important;
+        letter-spacing: 0.03em !important;
+        -webkit-line-clamp: 4 !important;
+        margin: 12px 0 0 !important;
+        color: var(--color-text-main) !important;
+      }
+
+      body.dark-mode .tile-work-quote {
+        color: #e6dfd4 !important;
+      }
+
+      /* 4. 翻阅引导：无线条，只是一行小字 */
+      .tile-read-cue {
+        border-top: none !important;
+        padding-top: 0 !important;
+        margin-top: 14px !important;
+        font-size: 0.76rem !important;
+        letter-spacing: 1px !important;
+        color: var(--color-text-subtle) !important;
+      }
+
+      body.dark-mode .tile-read-cue {
+        color: #8b8175 !important;
+      }
+
+      /* 5. 统一用留白分隔，不再画线 */
+      .featured-magazine-tile {
+        margin-bottom: 24px !important;
+      }
+
+      .home-categories-bar {
+        margin: 0 0 24px !important;
+        padding-top: 0 !important;
+        border-top: none !important;
+      }
+
+      .home-footer-search-wrap {
+        margin: 0 auto 24px !important;
+      }
+
+      .home-bottom-feature {
+        margin: 0 !important;
+        padding: 0 !important;
+        border-top: none !important;
+      }
+
+      /* 页脚上方的线也去掉，整页只靠留白分隔 */
+      body:has(.home-editorial-wrapper) .global-footer {
+        border-top: none !important;
+      }
+
+      /* 6. 检索框：无边框，极淡底；聚焦时才出现一条强调色细线 */
+      .home-footer-search-wrap .editorial-search-capsule {
+        background: rgba(42, 37, 33, 0.035) !important;
+        border: none !important;
+        border-radius: 3px !important;
+        height: auto !important;
+        padding: 10px 12px !important;
+      }
+
+      .home-footer-search-wrap .editorial-search-capsule:focus-within {
+        background: rgba(42, 37, 33, 0.055) !important;
+        box-shadow: inset 0 -1px 0 var(--color-accent) !important;
+      }
+
+      body.dark-mode .home-footer-search-wrap .editorial-search-capsule {
+        background: rgba(255, 255, 255, 0.04) !important;
+      }
+
+      body.dark-mode .home-footer-search-wrap .editorial-search-capsule:focus-within {
+        background: rgba(255, 255, 255, 0.06) !important;
+        box-shadow: inset 0 -1px 0 var(--color-accent) !important;
+      }
+    }
+
+    /* 矮屏手机：摘选回到 3 行，留白同步收一档，仍保持一屏 */
+    @media (max-width: 680px) and (max-height: 760px) {
+      .tile-work-quote {
+        -webkit-line-clamp: 3 !important;
+        font-size: 0.9rem !important;
+        line-height: 1.72 !important;
+        margin-top: 8px !important;
+      }
+
+      .tile-read-cue {
+        margin-top: 10px !important;
+      }
+
+      .featured-magazine-tile {
+        margin-bottom: 16px !important;
+      }
+
+      .home-categories-bar {
+        margin-bottom: 16px !important;
+      }
+
+      .home-footer-search-wrap {
+        margin-bottom: 16px !important;
+      }
+
+      .home-footer-search-wrap .editorial-search-capsule {
+        padding: 8px 12px !important;
+      }
+    }
+
   </style>
 </head>
 <body>
