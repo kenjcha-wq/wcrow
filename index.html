@@ -1713,6 +1713,87 @@
         padding: 0 10px;
       }
     }
+
+    /* ==========================================================================
+       首页第三轮调整（增量覆盖层）
+       1) 移动端背景彻底静态化：禁用实时 blur / scale，只留极低不透明度作暗纹，
+          滚动时不再触发整屏高斯模糊重绘（跟手性问题的根因）
+       2) 移动端排版紧凑化：缩小标题、压低封面、收紧字号与内边距
+       3) 桌面端检索条收窄到 340px（移动端仍为通栏，故限制在 min-width 断点内）
+       ========================================================================== */
+
+    @media (min-width: 681px) {
+      /* 只收窄搜索框本体；外层容器留够宽度，让指路标签保持单行 */
+      .home-footer-search-wrap {
+        max-width: 620px;
+      }
+
+      .home-footer-search-wrap .editorial-search-capsule {
+        max-width: 340px;
+        margin: 0 auto;
+      }
+    }
+
+    @media (max-width: 680px) {
+      /* 背景：手机上不再有任何实时滤镜与变换，滚动时只是静态底图 */
+      .home-bg-artwork-layer.blurred {
+        filter: none !important;
+        transform: none !important;
+        opacity: 0.1;
+        background-size: cover;
+        background-position: center;
+      }
+
+      body.dark-mode .home-bg-artwork-layer.blurred {
+        filter: none !important;
+        transform: none !important;
+        opacity: 0.05;
+      }
+
+      /* 头部收紧 */
+      .home-center-stage--magazine .home-stage-header {
+        margin: 4px 0 12px;
+      }
+
+      .home-center-stage--magazine .home-main-title {
+        font-size: 1.8rem;
+        letter-spacing: 2px;
+        margin-bottom: 6px;
+      }
+
+      .home-center-stage--magazine .home-sub-slogan {
+        font-size: 0.95rem;
+        letter-spacing: 1.5px;
+      }
+
+      /* 磁贴紧凑化 */
+      .tile-cover-wrapper {
+        min-height: 160px;
+        height: 160px;
+      }
+
+      .tile-content-wrapper {
+        padding: 16px;
+      }
+
+      .tile-work-title {
+        font-size: 1.1rem;
+        letter-spacing: 0.5px;
+        margin-bottom: 8px;
+      }
+
+      .tile-work-quote {
+        font-size: 0.85rem;
+        line-height: 1.6;
+        -webkit-line-clamp: 3;
+        margin-bottom: 10px;
+      }
+
+      .home-categories-bar {
+        margin-bottom: 16px;
+        font-size: 0.85rem;
+      }
+    }
   </style>
 </head>
 <body>
