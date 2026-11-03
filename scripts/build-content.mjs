@@ -151,15 +151,36 @@ function walkMd(dir) {
 function readWorks() {
   const works = [];
   const problems = [];
+
+  // content/ 根目录下散落的 .md 不会被任何 collection 收录——直接报错，避免"写了却没网址"
+  if (fs.existsSync(CONTENT_DIR)) {
+    for (const entry of fs.readdirSync(CONTENT_DIR, { withFileTypes: true })) {
+      if (entry.isFile() && entry.name.endsWith('.md')) {
+        problems.push(`content/${entry.name}：Markdown 不在 long / short / series 目录里，不会被收录（请把文件移到对应目录）`);
+      }
+    }
+  }
   for (const [key, cfg] of Object.entries(COLLECTIONS)) {
     const dir = path.join(ROOT, cfg.dir);
     for (const file of walkMd(dir)) {
       const raw = fs.readFileSync(file, 'utf8');
-      const { data, body } = parseFrontmatter(raw);
       const rel = path.relative(ROOT, file);
+
+      if (!/^---\r?\n/.test(raw)) {
+        problems.push(`${rel}：文件首行不是 ---（frontmatter 没有正确开始）`);
+        continue;
+      }
+      const { data, body } = parseFrontmatter(raw);
+      if (!/^---\r?\n[\s\S]*?\r?\n---[ \t]*(?:\r?\n|$)/.test(raw)) {
+        problems.push(`${rel}：frontmatter 没有以 --- 正确结束`);
+        continue;
+      }
       const slug = (data.slug || path.basename(file, '.md')).trim();
       if (!data.title) problems.push(`${rel}：缺少 title`);
       if (!slug) problems.push(`${rel}：缺少 slug`);
+      if (slug && !/^[a-z0-9-]+$/.test(slug)) {
+        console.warn(`[warn] ${rel}：slug「${slug}」含有非小写字母/数字/短横线的字符，网址里会出现转义编码，建议改成纯小写拼音`);
+      }
       works.push({
         id: data.id,
         slug,

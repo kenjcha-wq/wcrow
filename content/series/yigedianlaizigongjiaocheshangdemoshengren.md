@@ -1,14 +1,16 @@
+---
 title: "一格电，来自公交车上的陌生人"
 slug: "yigedianlaizigongjiaocheshangdemoshengren"
-date: "2026-11-04"
-series: "井底观察日志"
 type: "series"
+series: "井底观察日志"
+orderInSeries: 2
+date: "2026-11-04"
+status: "published"
 coverImage: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1200&q=85"
-我没有驾照。这让我成了兰州公交系统里，一个长期保持清醒的游魂
+tags: ["兰州", "公交车", "陌生人", "一格电"]
+excerpt: ""
+relatedSlugs: ["cat-rice-in-convenience-store"]
 ---
-
-# 一格电，来自公交车上的陌生人
-
 我没有驾照。这让我成了兰州公交系统里，一个长期保持清醒的游魂。
 
 地铁固然快，但窗外只有黑色的虚无。 在那个封闭的、流动的铝合金盒子里，每个人都低着头，把自己埋进 6.7 寸的屏幕里。 大家都在打听那个其实与自己无关的世界，所以我更爱公交。 它有窗户，有阳光，有那种尘土飞扬且冒着热气的真实。
