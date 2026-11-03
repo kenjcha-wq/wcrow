@@ -1,0 +1,123 @@
+# 乌鸦与井 — Decap CMS 内容后台配置
+#
+# 工作方式：
+#   后台写稿 → 直接提交 Markdown 到本仓库 content/<collection>/ → GitHub Actions 重新生成
+#   content-index.json → Cloudflare Pages 自动部署 → 前台读取索引渲染。
+#
+# 认证（重要）：
+#   Decap 是纯前端 CMS，无法自己完成 GitHub OAuth 授权，必须有一个 OAuth 中转。
+#   把 base_url 换成你自己的 OAuth Worker 地址即可（详见 docs/内容后台-接入说明.md）。
+#   只想在自己电脑上写稿？可在仓库根目录跑 `npx decap-server`，
+#   local_backend 已开启，此时走 http://localhost:8081 的本地代理，无需任何 OAuth。
+
+backend:
+  name: github
+  repo: kenjcha-wq/wcrow
+  branch: main
+  # ↓↓↓ 部署你自己的 OAuth 中转后替换（例如 Cloudflare Worker / Vercel 上的 decap-proxy）
+  base_url: https://wcrow-cms-oauth.example.workers.dev
+  auth_endpoint: auth
+  commit_messages:
+    create: '内容：新增《{{collection}}》{{slug}}'
+    update: '内容：更新《{{collection}}》{{slug}}'
+    delete: '内容：删除《{{collection}}》{{slug}}'
+    uploadMedia: '内容：上传图片 {{path}}'
+    deleteMedia: '内容：删除图片 {{path}}'
+
+# 本地开发：npx decap-server 后在 http://localhost:8080/admin/ 打开即可直接写盘
+local_backend: true
+
+site_url: https://wcrow.pages.dev
+display_url: https://wcrow.pages.dev
+logo_url: ''
+
+# 图片统一放在 content/media/，前台可直接用 /content/media/xxx 引用
+media_folder: 'content/media'
+public_folder: '/content/media'
+
+locale: zh_Hans
+publish_mode: simple
+
+collections:
+  - name: long
+    label: 长篇作品
+    label_singular: 长篇
+    description: 连载型长篇小说，落在 content/long/
+    folder: 'content/long'
+    media_folder: ''
+    public_folder: ''
+    create: true
+    delete: true
+    slug: '{{slug}}'
+    extension: md
+    format: frontmatter
+    identifier_field: title
+    summary: '《{{title}}》 · {{date}}'
+    sortable_fields: ['date', 'title']
+    fields:
+      - { name: title, label: 作品标题, widget: string, hint: '不需要写《》，前台会自动加书名号' }
+      - { name: slug, label: 网址标识 slug, widget: string, hint: '只用小写字母、数字与短横线，例如 nobody-knows-chapter-one' }
+      - { name: type, label: 分类, widget: select, options: [novel-long, series, novel-short, essay], default: novel-long, required: false }
+      - { name: series, label: 所属系列, widget: string, required: false }
+      - { name: orderInSeries, label: 系列内序号, widget: number, required: false, value_type: int, min: 1 }
+      - { name: date, label: 发布日期, widget: datetime, date_format: 'YYYY-MM-DD', time_format: false, picker_utc: true }
+      - { name: coverImage, label: 封面/插图, widget: image, required: false, hint: '必须与作品内容相关的图；留空则前台使用统一备用图' }
+      - { name: tags, label: 标签, widget: list, required: false, field: { name: tag, label: 标签, widget: string } }
+      - { name: excerpt, label: 摘要（可选）, widget: text, required: false, hint: '留空时前台自动从正文截取前 100~120 字' }
+      - { name: relatedSlugs, label: 相关作品 slug, widget: list, required: false, field: { name: slug, label: slug, widget: string } }
+      - { name: status, label: 状态, widget: select, options: [published, draft], default: published, required: false }
+      - { name: body, label: 正文, widget: markdown, hint: '段落之间空一行；插图用 ![说明](图片地址) 或 [image: 图片地址 | 说明]' }
+
+  - name: short
+    label: 短篇集
+    label_singular: 短篇
+    description: 单篇独立的短篇小说与速写，落在 content/short/
+    folder: 'content/short'
+    create: true
+    delete: true
+    slug: '{{slug}}'
+    extension: md
+    format: frontmatter
+    identifier_field: title
+    summary: '《{{title}}》 · {{date}}'
+    sortable_fields: ['date', 'title']
+    fields:
+      - { name: title, label: 作品标题, widget: string }
+      - { name: slug, label: 网址标识 slug, widget: string, hint: '小写字母、数字与短横线' }
+      - { name: type, label: 分类, widget: select, options: [novel-short, essay, series, novel-long], default: novel-short, required: false }
+      - { name: series, label: 所属系列, widget: string, required: false }
+      - { name: orderInSeries, label: 系列内序号, widget: number, required: false, value_type: int, min: 1 }
+      - { name: date, label: 发布日期, widget: datetime, date_format: 'YYYY-MM-DD', time_format: false, picker_utc: true }
+      - { name: coverImage, label: 封面/插图, widget: image, required: false }
+      - { name: tags, label: 标签, widget: list, required: false, field: { name: tag, label: 标签, widget: string } }
+      - { name: excerpt, label: 摘要（可选）, widget: text, required: false }
+      - { name: relatedSlugs, label: 相关作品 slug, widget: list, required: false, field: { name: slug, label: slug, widget: string } }
+      - { name: status, label: 状态, widget: select, options: [published, draft], default: published, required: false }
+      - { name: body, label: 正文, widget: markdown }
+
+  - name: series
+    label: 系列日志
+    label_singular: 系列篇
+    description: 归入某个系列的分篇（如《兰州美食图鉴》《井底观察日志》），落在 content/series/
+    folder: 'content/series'
+    create: true
+    delete: true
+    slug: '{{slug}}'
+    extension: md
+    format: frontmatter
+    identifier_field: title
+    summary: '《{{series}}》· {{title}}'
+    sortable_fields: ['date', 'title']
+    fields:
+      - { name: title, label: 作品标题, widget: string }
+      - { name: slug, label: 网址标识 slug, widget: string }
+      - { name: type, label: 分类, widget: select, options: [series, novel-short, novel-long, essay], default: series, required: false }
+      - { name: series, label: 所属系列, widget: string, hint: '例如 兰州美食图鉴 / 井底观察日志' }
+      - { name: orderInSeries, label: 系列内序号, widget: number, required: false, value_type: int, min: 1 }
+      - { name: date, label: 发布日期, widget: datetime, date_format: 'YYYY-MM-DD', time_format: false, picker_utc: true }
+      - { name: coverImage, label: 封面/插图, widget: image, required: false }
+      - { name: tags, label: 标签, widget: list, required: false, field: { name: tag, label: 标签, widget: string } }
+      - { name: excerpt, label: 摘要（可选）, widget: text, required: false }
+      - { name: relatedSlugs, label: 相关作品 slug, widget: list, required: false, field: { name: slug, label: slug, widget: string } }
+      - { name: status, label: 状态, widget: select, options: [published, draft], default: published, required: false }
+      - { name: body, label: 正文, widget: markdown }

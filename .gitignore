@@ -1,0 +1,9 @@
+# 本地备份（不提交）
+index.html.pre-*
+
+# 系统/编辑器
+.DS_Store
+Thumbs.db
+
+# 本地 CMS 代理缓存
+.admin/

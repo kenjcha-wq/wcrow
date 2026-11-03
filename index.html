@@ -4282,6 +4282,51 @@
     let WORKS = [...STATIC_WORKS];
     let publishedWorks = WORKS.filter(w => w.status === 'published');
 
+    /**
+     * 内容层：从构建产物 content-index.json 读取作品（Markdown → JSON 由
+     * GitHub Actions / `node scripts/build-content.mjs` 生成）。
+     * 取不到时静默回退到 STATIC_WORKS，保证纯静态部署与离线浏览仍然可用。
+     */
+    async function syncWorksFromContentIndex() {
+      try {
+        const res = await fetch('content-index.json', { cache: 'no-cache' });
+        if (!res.ok) return false;
+        const data = await res.json();
+        const list = Array.isArray(data) ? data : (data && Array.isArray(data.works) ? data.works : null);
+        if (!list || !list.length) return false;
+
+        // 只接受结构完整的条目，字段缺失的条目被忽略（不猜测、不补写内容）
+        const normalized = list
+          .filter(w => w && typeof w.slug === 'string' && w.slug.trim() && typeof w.title === 'string' && w.title.trim())
+          .map((w, i) => ({
+            id: w.id != null ? w.id : i + 1,
+            slug: w.slug,
+            title: w.title,
+            type: w.type || 'series',
+            series: w.series || '',
+            orderInSeries: Number(w.orderInSeries) || undefined,
+            date: w.date || '',
+            summary: w.summary || w.excerpt || '',
+            coverImage: w.coverImage || '',
+            tags: Array.isArray(w.tags) ? w.tags : [],
+            relatedSlugs: Array.isArray(w.relatedSlugs) ? w.relatedSlugs : [],
+            status: w.status || 'published',
+            content: typeof w.content === 'string' ? w.content : ''
+          }));
+
+        if (!normalized.length) return false;
+
+        WORKS = normalized;
+        publishedWorks = WORKS.filter(w => w.status === 'published');
+        window.__WORKS_SOURCE = 'content-index.json';
+        navigate();
+        return true;
+      } catch (e) {
+        // 内容索引缺失或格式错误时保留静态数据，不影响浏览
+        return false;
+      }
+    }
+
     async function syncWorksFromBackend() {
       try {
         const res = await fetch('/api/works');
@@ -5473,7 +5518,8 @@
     window.addEventListener('DOMContentLoaded', () => {
       initTheme();
       navigate();
-      syncWorksFromBackend(); // 异步同步 D1 中智能体维护的文章
+      // 数据来源优先级：content-index.json（Markdown 内容层）→ D1 API（若已绑定）→ STATIC_WORKS
+      syncWorksFromContentIndex().then(() => syncWorksFromBackend());
     });
 
     // 立即执行一次导航渲染

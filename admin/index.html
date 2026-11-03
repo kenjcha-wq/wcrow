@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>写稿台 — 乌鸦与井</title>
+  <style>
+    html, body { margin: 0; padding: 0; background: #f2eee6; color: #2a2521; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; }
+    /* Decap 加载前的极简占位，避免白屏闪烁 */
+    #cms-boot-hint {
+      position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 10px; letter-spacing: .18em; font-size: .8rem; color: #867d70;
+    }
+    #cms-boot-hint strong { font-family: "Songti SC", "Source Han Serif SC", serif; font-size: 1.4rem; letter-spacing: .2em; color: #2a2521; }
+    body.dark-mode { background: #1c1a18; }
+  </style>
+</head>
+<body>
+  <div id="cms-boot-hint">
+    <strong>乌鸦与井 · 写稿台</strong>
+    <span>正在载入内容后台……</span>
+  </div>
+  <!-- Decap CMS（原 Netlify CMS）：仅后台使用，不参与前台渲染 -->
+  <script src="https://unpkg.com/decap-cms@^3.4.0/dist/decap-cms.js"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+name: 生成内容索引（content/ → content-index.json）
+
+# 作者在 Decap CMS（或直接改 Markdown）提交内容后，自动重建前台读取的 JSON 索引。
+# 也可以在 Actions 页面手动触发（workflow_dispatch）。
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'content/**'
+      - 'scripts/build-content.mjs'
+      - '.github/workflows/content-index.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: content-index
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 准备 Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 从 Markdown 生成索引
+        run: node scripts/build-content.mjs
+
+      - name: 索引有变化则提交
+        run: |
+          if git diff --quiet -- content-index.json; then
+            echo "索引无变化，跳过提交"
+            exit 0
+          fi
+          git config user.name "crow-content-bot"
+          git config user.email "crow-content-bot@users.noreply.github.com"
+          git add content-index.json
+          git commit -m "构建：content/ → content-index.json（${{ github.sha }}）"
+          git push
