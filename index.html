@@ -1210,6 +1210,396 @@
         line-height: 1.9;
       }
     }
+    /* ==========================================================================
+       首页画报化改造（增量追加层）
+       作用范围：仅首页容器内的 .home-magazine-layout / .featured-magazine-tile
+       等新增类，不改动阅读页、归档页、关于页、来信管理页与录入助手样式。
+       ========================================================================== */
+
+    /* 首页容器略收紧留白，为画报磁贴腾出呼吸空间 */
+    .home-magazine-layout {
+      padding-top: 4vh;
+      padding-bottom: 30px;
+    }
+
+    /* 首页背景大图深度虚化：父容器 .home-editorial-wrapper 已 overflow:hidden，
+       scale(1.08) 用于消除模糊造成的边缘露白，且不会产生横向滚动条 */
+    .home-bg-artwork-layer.blurred {
+      filter: blur(40px) saturate(1.1) brightness(0.45);
+      transform: scale(1.08);
+      transform-origin: center center;
+      opacity: 0.35;
+      transition: filter 0.8s ease, opacity 0.8s ease;
+    }
+
+    body.dark-mode .home-bg-artwork-layer.blurred {
+      filter: blur(48px) saturate(0.9) brightness(0.25);
+      opacity: 0.4;
+    }
+
+    /* 居中舞台放宽到画报尺寸（该类仅首页使用） */
+    .home-center-stage.home-center-stage--magazine {
+      max-width: 720px;
+    }
+
+    .home-center-stage--magazine .home-stage-header {
+      margin-bottom: 26px;
+    }
+
+    /* 长方形图文画报磁贴 */
+    .featured-magazine-tile {
+      display: flex;
+      width: 100%;
+      max-width: 680px;
+      margin: 0 auto 24px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      cursor: pointer;
+    }
+
+    .featured-magazine-tile:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 56px rgba(0, 0, 0, 0.18);
+      border-color: var(--color-text-subtle);
+    }
+
+    .featured-magazine-tile:focus-visible {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 3px;
+      border-color: var(--color-accent);
+    }
+
+    /* 磁贴左侧封面（约 58%） */
+    .tile-cover-wrapper {
+      flex: 0 0 58%;
+      position: relative;
+      min-height: 280px;
+      background-color: #1a1a1a;
+      overflow: hidden;
+    }
+
+    .tile-cover-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center;
+      transition: transform 0.6s ease;
+    }
+
+    .featured-magazine-tile:hover .tile-cover-img {
+      transform: scale(1.04);
+    }
+
+    /* 磁贴右侧文句摘选（约 42%） */
+    .tile-content-wrapper {
+      flex: 0 0 42%;
+      min-width: 0;
+      padding: 24px 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-align: left;
+      background: var(--color-surface);
+      border-left: 1px solid var(--color-border-subtle);
+    }
+
+    .tile-text-block {
+      min-width: 0;
+    }
+
+    .tile-badge {
+      font-size: 0.76rem;
+      letter-spacing: 1.5px;
+      color: var(--color-accent);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      font-family: var(--font-serif);
+    }
+
+    .tile-work-title {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      margin: 0 0 12px 0;
+      color: var(--color-text-main);
+      line-height: 1.3;
+    }
+
+    .tile-work-quote {
+      font-family: var(--font-serif);
+      font-size: 0.9rem;
+      line-height: 1.8;
+      color: var(--color-text-muted);
+      letter-spacing: 0.4px;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      margin: 0 0 14px 0;
+    }
+
+    .tile-read-cue {
+      font-size: 0.82rem;
+      color: var(--color-text-subtle);
+      letter-spacing: 1px;
+      align-self: flex-start;
+      transition: color var(--transition);
+    }
+
+    .featured-magazine-tile:hover .tile-read-cue {
+      color: var(--color-accent);
+    }
+
+    /* 分类标签横条 */
+    .home-categories-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 18px;
+      margin: 0 auto 28px;
+      font-size: 0.92rem;
+      letter-spacing: 1.5px;
+      color: var(--color-text-muted);
+      font-family: var(--font-serif);
+    }
+
+    .home-categories-bar a {
+      transition: color var(--transition);
+      padding: 4px;
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .home-categories-bar a:hover,
+    .home-categories-bar a:focus-visible {
+      color: var(--color-accent);
+    }
+
+    .home-categories-bar a:focus-visible {
+      outline: 1px solid var(--color-accent);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+
+    .home-categories-bar .divider {
+      color: var(--color-border);
+      user-select: none;
+    }
+
+    /* 底部轻量检索区 */
+    .home-footer-search-wrap {
+      width: 100%;
+      max-width: 440px;
+      margin: 0 auto 16px;
+    }
+
+    .home-footer-search-wrap .editorial-search-capsule {
+      padding: 6px 14px;
+      border-radius: 20px;
+    }
+
+    .home-footer-search-wrap .editorial-search-input {
+      font-size: 0.94rem;
+      min-width: 0;
+    }
+
+    .search-random-btn {
+      background: none;
+      border: none;
+      color: var(--color-text-subtle);
+      font-size: 0.82rem;
+      cursor: pointer;
+      padding: 4px 8px;
+      font-family: inherit;
+      white-space: nowrap;
+      border-radius: 12px;
+      transition: color var(--transition), background-color var(--transition);
+    }
+
+    .search-random-btn:hover,
+    .search-random-btn:focus-visible {
+      color: var(--color-accent);
+    }
+
+    .search-random-btn:focus-visible {
+      outline: 1px solid var(--color-accent);
+      outline-offset: 1px;
+    }
+
+    /* 指路标签 */
+    .search-suggest-chips {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+      font-size: 0.8rem;
+      color: var(--color-text-subtle);
+      font-family: var(--font-serif);
+    }
+
+    .chip-lead {
+      letter-spacing: 1px;
+    }
+
+    .suggest-chip {
+      background: none;
+      border: 1px dashed var(--color-border);
+      color: var(--color-text-muted);
+      border-radius: 12px;
+      padding: 2px 10px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all var(--transition);
+    }
+
+    .suggest-chip:hover,
+    .suggest-chip:focus-visible {
+      color: var(--color-accent);
+      border-color: var(--color-accent);
+    }
+
+    .suggest-chip:focus-visible {
+      outline: 1px solid var(--color-accent);
+      outline-offset: 2px;
+    }
+
+    /* 检索结果面板：依旧处于正常文档流，不覆盖磁贴 / 分类栏 / 底部入口 */
+    .home-center-stage--magazine .home-search-results-panel {
+      max-width: 620px;
+    }
+
+    /* 深色模式下的磁贴阴影与封面底色 */
+    body.dark-mode .featured-magazine-tile {
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
+    }
+
+    body.dark-mode .featured-magazine-tile:hover {
+      box-shadow: 0 20px 56px rgba(0, 0, 0, 0.55);
+    }
+
+    /* 移动端断点适配 (<= 680px)：磁贴转为上图下文 */
+    @media (max-width: 680px) {
+      .home-magazine-layout {
+        padding: 20px 16px 26px;
+      }
+
+      .home-bg-artwork-layer.blurred {
+        filter: blur(30px) saturate(1.05) brightness(0.5);
+        opacity: 0.3;
+      }
+
+      body.dark-mode .home-bg-artwork-layer.blurred {
+        filter: blur(36px) saturate(0.9) brightness(0.28);
+        opacity: 0.36;
+      }
+
+      .home-center-stage--magazine .home-stage-header {
+        margin-bottom: 20px;
+      }
+
+      .featured-magazine-tile {
+        flex-direction: column;
+        max-width: 100%;
+        margin-bottom: 20px;
+      }
+
+      .tile-cover-wrapper {
+        min-height: 190px;
+        flex: none;
+        height: 190px;
+      }
+
+      .tile-content-wrapper {
+        flex: none;
+        padding: 18px 16px;
+        border-left: none;
+        border-top: 1px solid var(--color-border-subtle);
+      }
+
+      .tile-work-title {
+        font-size: 1.12rem;
+        margin-bottom: 10px;
+      }
+
+      .tile-work-quote {
+        -webkit-line-clamp: 3;
+        font-size: 0.86rem;
+        line-height: 1.75;
+        margin-bottom: 12px;
+      }
+
+      .home-categories-bar {
+        gap: 12px;
+        font-size: 0.85rem;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .home-categories-bar a {
+        padding: 8px 4px;
+      }
+
+      .home-footer-search-wrap {
+        max-width: 100%;
+      }
+
+      .home-footer-search-wrap .editorial-search-capsule {
+        padding: 6px 12px;
+      }
+
+      .search-random-btn {
+        padding: 8px 6px;
+      }
+
+      .suggest-chip {
+        padding: 6px 12px;
+        font-size: 0.78rem;
+      }
+
+      /* 首页在手机上同时承载标题、分类与检索，顶栏需避免逐字换行 */
+      .global-header {
+        padding: 16px;
+      }
+
+      .nav-inner {
+        gap: 10px;
+      }
+
+      .brand-name {
+        font-size: 1.02rem;
+        letter-spacing: 1px;
+        white-space: nowrap;
+      }
+
+      .site-nav {
+        gap: 12px;
+        flex-shrink: 0;
+      }
+
+      .nav-item {
+        font-size: 0.82rem;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+      }
+
+      .theme-toggle-btn {
+        white-space: nowrap;
+      }
+    }
   </style>
 </head>
 <body>
@@ -2432,51 +2822,194 @@
     }
 
     /**
-     * 1. 首页视图
+     * 首页安全文本输出：标题 / 系列名 / 摘选一律转义，避免作品文本被当作 HTML 执行
+     */
+    function escapeHomeHtml(value) {
+      return String(value == null ? '' : value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    /**
+     * 图片地址进入内联 style 的 url() 前做最小净化，只处理样式语法字符
+     */
+    function sanitizeHomeImageUrl(url) {
+      return String(url || '')
+        .replace(/\\/g, '')
+        .replace(/[\r\n\t]/g, '')
+        .replace(/'/g, '%27')
+        .replace(/"/g, '%22')
+        .replace(/\(/g, '%28')
+        .replace(/\)/g, '%29');
+    }
+
+    /**
+     * 首页文句摘选：优先使用作品既有 summary 字段；
+     * 仅当 summary 为空时从正文只读截取，绝不写回作品数据。
+     */
+    function deriveHomeExcerpt(work, maxLen) {
+      if (!work) return '';
+
+      const limit = maxLen || 112;
+      const existingSummary = typeof work.summary === 'string' ? work.summary.trim() : '';
+      if (existingSummary) return existingSummary;
+
+      const raw = typeof work.content === 'string' ? work.content : '';
+      if (!raw) return '';
+
+      // 只读清洗：剔除 Markdown 插图、链接语法、标题标记、分隔线与引用符号
+      const cleaned = raw
+        .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+        .replace(/\[image:[^\]]*\]/gi, '')
+        .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+        .replace(/^\s{0,3}#{1,6}\s+/gm, '')
+        .replace(/^\s{0,3}([-*_])(?:\s*\1){2,}\s*$/gm, '')
+        .replace(/^\s*>\s?/gm, '')
+        .replace(/`{1,3}/g, '')
+        .replace(/\r\n?/g, '\n');
+
+      // 按空行切段，丢弃只有卷号标记的段落（如「一」「二」），优先保留完整句子
+      const paragraphs = cleaned
+        .split(/\n\s*\n/)
+        .map(p => p.replace(/\s*\n\s*/g, ' ').trim())
+        .filter(p => p && !/^[一二三四五六七八九十百千零〇0-9]{1,3}$/.test(p));
+
+      let excerpt = '';
+      for (let i = 0; i < paragraphs.length; i += 1) {
+        const next = excerpt ? excerpt + ' ' + paragraphs[i] : paragraphs[i];
+        excerpt = next;
+        if (next.length >= limit) break;
+      }
+
+      excerpt = excerpt.trim();
+      if (!excerpt) return '';
+      if (excerpt.length <= limit) return excerpt;
+
+      const cut = excerpt.slice(0, limit);
+      const lastStop = Math.max(
+        cut.lastIndexOf('。'),
+        cut.lastIndexOf('！'),
+        cut.lastIndexOf('？'),
+        cut.lastIndexOf('，')
+      );
+      return (lastStop > limit * 0.55 ? cut.slice(0, lastStop + 1) : cut) + '……';
+    }
+
+    /**
+     * 1. 首页视图：文学画报磁贴 + 分类入口 + 轻量检索
      */
     function renderHomeView(container) {
-      updatePageMeta('首页', '乌鸦与井：个人文学作品档案馆，以搜索、阅读和探索为核心的数字语料空间。');
+      updatePageMeta('首页', '乌鸦与井：个人文学作品档案馆，以阅读、偶遇与探索为核心的数字语料空间。');
       const dailyWork = getDailyFeaturedWork();
 
-      container.innerHTML = `
-        <div class="home-editorial-wrapper">
-          <!-- 每日插画作为主视觉背景层，点击空白背景进入故事 -->
-          ${dailyWork.coverImage ? `
-            <div class="home-bg-artwork-layer" style="background-image: url('${dailyWork.coverImage}')" aria-hidden="true"></div>
-            <a href="#/works/${dailyWork.slug}" class="home-bg-link-layer" title="进入今日插画对应故事：《${dailyWork.title}》" aria-label="进入今日插画对应故事：《${dailyWork.title}》"></a>
-          ` : ''}
+      // 背景图与磁贴封面分别取值：优先沿用今日作品封面，缺失时各自回落统一备用图
+      const fallbackCover = 'https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=1600&q=80';
+      const hasCover = !!(dailyWork && dailyWork.coverImage && String(dailyWork.coverImage).trim() !== '');
+      const bgImg = hasCover ? dailyWork.coverImage : fallbackCover;
+      const tileCoverImg = hasCover ? dailyWork.coverImage : fallbackCover;
 
-          <!-- 页面中央搜索引擎核心主体 -->
-          <div class="home-center-stage">
+      const workTitle = dailyWork && dailyWork.title ? dailyWork.title : '井底手记';
+      const workSlug = dailyWork && dailyWork.slug ? dailyWork.slug : '';
+      const catObj = dailyWork ? CATEGORIES.find(c => c.key === dailyWork.type) : null;
+      const badgeText = (dailyWork && dailyWork.series) || (catObj ? catObj.title : '文学作品');
+      const excerptText = deriveHomeExcerpt(dailyWork, 112) || '这一篇还没有写下摘要，推开封面，自己去井底读一读吧。';
+
+      const safeTitle = escapeHomeHtml(workTitle);
+      const safeSlug = escapeHomeHtml(workSlug);
+      const safeBadge = escapeHomeHtml(badgeText);
+      const safeExcerpt = escapeHomeHtml(excerptText);
+      const safeBgUrl = sanitizeHomeImageUrl(bgImg);
+      const safeCoverUrl = escapeHomeHtml(sanitizeHomeImageUrl(tileCoverImg));
+
+      container.innerHTML = `
+        <div class="home-editorial-wrapper home-magazine-layout">
+          <!-- 背景层：今日插画深度虚化 + 暗化，仅作为氛围底纹 -->
+          <div class="home-bg-artwork-layer blurred" style="background-image: url('${safeBgUrl}')" aria-hidden="true"></div>
+          ${workSlug ? `<a href="#/works/${safeSlug}" class="home-bg-link-layer" title="进入今日插画对应故事：《${safeTitle}》" aria-label="进入今日插画对应故事：《${safeTitle}》"></a>` : ''}
+
+          <div class="home-center-stage home-center-stage--magazine">
             <header class="home-stage-header">
               <h1 class="home-main-title">乌鸦与井</h1>
               <p class="home-sub-slogan">个人语料库与影像诗</p>
             </header>
 
-            <!-- 极简搜索框 -->
-            <div class="editorial-search-capsule">
-              <input type="text" id="homeSearchInput" class="editorial-search-input" 
-                     placeholder="搜索作品、人物、词句与意象……" 
-                     aria-label="搜索作品语料库">
-              <button id="searchClearBtn" class="search-clear-btn" aria-label="清空输入">✕</button>
+            <!-- 中央长方形图文画报磁贴 -->
+            <a href="#/works/${safeSlug}" class="featured-magazine-tile" title="阅读今日作品：《${safeTitle}》" aria-label="阅读今日作品：《${safeTitle}》">
+              <div class="tile-cover-wrapper">
+                <img class="tile-cover-img" src="${safeCoverUrl}" alt="《${safeTitle}》封面插画">
+              </div>
+              <div class="tile-content-wrapper">
+                <div class="tile-text-block">
+                  <div class="tile-badge">${safeBadge}</div>
+                  <h2 class="tile-work-title">《${safeTitle}》</h2>
+                  <p class="tile-work-quote">${safeExcerpt}</p>
+                </div>
+                <div class="tile-read-cue">翻阅此篇 →</div>
+              </div>
+            </a>
+
+            <!-- 文学分类入口 -->
+            <nav class="home-categories-bar" aria-label="文学分类入口">
+              <a href="#/archive/all">全站</a>
+              <span class="divider" aria-hidden="true">/</span>
+              <a href="#/archive/novel-long">长篇作品</a>
+              <span class="divider" aria-hidden="true">/</span>
+              <a href="#/archive/novel-short">短篇集</a>
+              <span class="divider" aria-hidden="true">/</span>
+              <a href="#/archive/series">系列日志</a>
+            </nav>
+
+            <!-- 底部轻量检索与随缘漫游 -->
+            <div class="home-footer-search-wrap">
+              <div class="editorial-search-capsule">
+                <input type="text" id="homeSearchInput" class="editorial-search-input"
+                       placeholder="在井底语料与断片中检索……"
+                       aria-label="检索作品语料库"
+                       autocomplete="off">
+                <button id="randomPickBtn" class="search-random-btn" type="button" title="随缘翻一篇">🎲 随缘</button>
+                <button id="searchClearBtn" class="search-clear-btn" type="button" aria-label="清空输入">✕</button>
+              </div>
+
+              <div class="search-suggest-chips">
+                <span class="chip-lead">翻翻看：</span>
+                <button class="suggest-chip" type="button" data-keyword="兰州">兰州烟火</button>
+                <button class="suggest-chip" type="button" data-keyword="猫">便利店与猫</button>
+                <button class="suggest-chip" type="button" data-keyword="汤">喝碗热汤</button>
+                <button class="suggest-chip" type="button" data-keyword="北京">西直门</button>
+              </div>
             </div>
 
-            <!-- 搜索结果挂载区 -->
+            <!-- 检索结果挂载区（正常文档流，不覆盖磁贴、分类栏与底部入口） -->
             <div id="inlineSearchResults" class="home-search-results-panel" style="display:none;"></div>
           </div>
 
-          <!-- 页面底部：每日精选 -->
+          <!-- 页面底部：每日精选（与磁贴共用同一个 dailyWork 对象与 slug） -->
           <div class="home-bottom-feature">
             <span class="feature-tag-lead">每日精选 /</span>
-            <a href="#/works/${dailyWork.slug}" class="feature-work-link" title="阅读今日作品">《${dailyWork.title}》</a>
+            <a href="#/works/${safeSlug}" class="feature-work-link" title="阅读今日作品">《${safeTitle}》</a>
           </div>
         </div>
       `;
 
+      // 封面加载失败时回落到统一备用图（仅影响首页展示，不改动作品数据）
+      const tileCoverEl = container.querySelector('.tile-cover-img');
+      if (tileCoverEl) {
+        tileCoverEl.addEventListener('error', () => {
+          if (tileCoverEl.dataset.fallbackApplied === '1') return;
+          tileCoverEl.dataset.fallbackApplied = '1';
+          tileCoverEl.src = fallbackCover;
+        });
+      }
+
       const searchInput = container.querySelector('#homeSearchInput');
       const clearBtn = container.querySelector('#searchClearBtn');
       const resultsBox = container.querySelector('#inlineSearchResults');
+      if (!searchInput || !clearBtn || !resultsBox) return;
 
+      // 沿用原有检索实现：同一份 publishedWorks 数据与同一套输入监听
       function executeSearch(query) {
         const q = query.trim().toLowerCase();
         clearBtn.style.display = q ? 'block' : 'none';
@@ -2509,6 +3042,55 @@
         searchInput.focus();
       });
     }
+
+    /**
+     * 首页快捷关键词：直接复用上面已有的输入框与 input 监听，不另建检索体系
+     */
+    window.quickSearch = function (keyword) {
+      const input = document.getElementById('homeSearchInput');
+      if (!input) return;
+      input.value = keyword;
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      input.focus();
+    };
+
+    /**
+     * 「随缘」与「指路标签」：一次性事件委托，避免每次 renderHomeView 重复注册全局监听
+     */
+    (function bindHomeMagazineDelegation() {
+      if (window.__crowHomeDelegationBound) return;
+      window.__crowHomeDelegationBound = true;
+
+      document.addEventListener('click', (e) => {
+        const target = e.target;
+        if (!target || typeof target.closest !== 'function') return;
+
+        const randomBtn = target.closest('#randomPickBtn');
+        if (randomBtn) {
+          e.preventDefault();
+          // 仅从公开作品集合 publishedWorks 中抽取，不涉及草稿与隐藏内容
+          if (!Array.isArray(publishedWorks) || publishedWorks.length === 0) return;
+          const pick = publishedWorks[Math.floor(Math.random() * publishedWorks.length)];
+          if (!pick || !pick.slug) return;
+          const targetHash = `#/works/${pick.slug}`;
+          if (window.location.hash === targetHash) {
+            navigate();
+          } else {
+            window.location.hash = targetHash;
+          }
+          return;
+        }
+
+        const chip = target.closest('.suggest-chip');
+        if (chip) {
+          e.preventDefault();
+          const keyword = chip.dataset.keyword || chip.textContent.trim();
+          if (keyword && typeof window.quickSearch === 'function') {
+            window.quickSearch(keyword);
+          }
+        }
+      });
+    })();
 
     /**
      * 2. 目录页（归档与分类浏览）
