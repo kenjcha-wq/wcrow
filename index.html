@@ -1980,6 +1980,74 @@
         white-space: nowrap;
       }
     }
+
+    /* ==========================================================================
+       首页第五轮调整：移动端大减法
+       顶栏已有「乌鸦与井」+ Logo，手机端撤掉中央大标题（副标题移入顶栏），
+       撤掉指路标签，把省下的空间还给画报卡片，并保持 100dvh 零滚动。
+       ========================================================================== */
+
+    /* 顶栏副标题：桌面端与非首页一律不出现 */
+    .brand-slogan {
+      display: none;
+    }
+
+    @media (max-width: 680px) {
+      /* 1. 中央标题区整体让位（顶栏承担品牌与副题） */
+      .home-stage-header {
+        display: none !important;
+      }
+
+      /* 2. 指路标签在手机上撤掉 */
+      .search-suggest-chips {
+        display: none !important;
+      }
+
+      /* 3. 画报变高、变精致 */
+      .tile-cover-wrapper {
+        height: 180px;
+        min-height: 180px;
+      }
+
+      .tile-content-wrapper {
+        padding: 20px;
+      }
+
+      .tile-work-quote {
+        -webkit-line-clamp: 3;
+        margin-bottom: 10px;
+      }
+
+      /* 搜索条收窄，不顶满两侧 */
+      .home-footer-search-wrap .editorial-search-capsule {
+        max-width: 300px;
+        margin: 0 auto;
+      }
+
+      /* 4. 剩余模块在舞台内均匀舒展（不贴边、不挤中） */
+      .home-center-stage.home-center-stage--magazine {
+        justify-content: space-evenly;
+        gap: 8px;
+      }
+
+      /* 顶栏副标题：仅首页 + 手机显示，落在 Logo 下方 */
+      body:has(.home-editorial-wrapper) .brand-link {
+        flex-wrap: wrap;
+        row-gap: 0;
+        align-items: center;
+      }
+
+      body:has(.home-editorial-wrapper) .brand-slogan {
+        display: block;
+        flex: 0 0 100%;
+        font-family: var(--font-serif);
+        font-size: 0.75rem;
+        line-height: 1.3;
+        letter-spacing: 1.5px;
+        font-weight: 300;
+        color: var(--color-text-subtle);
+      }
+    }
   </style>
 </head>
 <body>
@@ -1992,6 +2060,7 @@
       <a href="#/" class="brand-link" aria-label="返回乌鸦与井首页">
         <span class="brand-symbol">𓅂</span>
         <span class="brand-name">乌鸦与井</span>
+        <span class="brand-slogan" aria-hidden="true">个人语料库与影像诗</span>
       </a>
       <nav class="site-nav" role="navigation" aria-label="全局导航">
         <a href="#/archive/all" class="nav-item" id="nav-archive">目录</a>
