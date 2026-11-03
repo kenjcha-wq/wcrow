@@ -4295,6 +4295,14 @@
         const list = Array.isArray(data) ? data : (data && Array.isArray(data.works) ? data.works : null);
         if (!list || !list.length) return false;
 
+        // tags / relatedSlugs 兼容数组与逗号分隔字符串，避免脏数据把渲染打崩
+        const toStrArray = (value) => {
+          if (value === undefined || value === null || value === '') return [];
+          if (Array.isArray(value)) return value.map(v => String(v).trim()).filter(Boolean);
+          if (typeof value === 'string') return value.split(/[,，;；、]/).map(v => v.trim()).filter(Boolean);
+          return [String(value).trim()].filter(Boolean);
+        };
+
         // 只接受结构完整的条目，字段缺失的条目被忽略（不猜测、不补写内容）
         const normalized = list
           .filter(w => w && typeof w.slug === 'string' && w.slug.trim() && typeof w.title === 'string' && w.title.trim())
@@ -4308,9 +4316,9 @@
             date: w.date || '',
             summary: w.summary || w.excerpt || '',
             coverImage: w.coverImage || '',
-            tags: Array.isArray(w.tags) ? w.tags : [],
-            relatedSlugs: Array.isArray(w.relatedSlugs) ? w.relatedSlugs : [],
-            status: w.status || 'published',
+            tags: toStrArray(w.tags),
+            relatedSlugs: toStrArray(w.relatedSlugs),
+            status: String(w.status || '').trim().toLowerCase() === 'draft' ? 'draft' : 'published',
             content: typeof w.content === 'string' ? w.content : ''
           }));
 
@@ -4768,11 +4776,11 @@
         }
 
         const matched = publishedWorks.filter(w => {
-          const inTitle = w.title.toLowerCase().includes(q);
-          const inSummary = (w.summary || '').toLowerCase().includes(q);
-          const inContent = (w.content || '').toLowerCase().includes(q);
-          const inTags = w.tags && w.tags.some(t => t.toLowerCase().includes(q));
-          const inSeries = w.series && w.series.toLowerCase().includes(q);
+          const inTitle = String(w.title || '').toLowerCase().includes(q);
+          const inSummary = String(w.summary || '').toLowerCase().includes(q);
+          const inContent = String(w.content || '').toLowerCase().includes(q);
+          const inTags = Array.isArray(w.tags) && w.tags.some(t => String(t).toLowerCase().includes(q));
+          const inSeries = String(w.series || '').toLowerCase().includes(q);
           return inTitle || inSummary || inContent || inTags || inSeries;
         });
 
@@ -4959,8 +4967,10 @@
       const prevWork = currentIndex > 0 ? pool[currentIndex - 1] : null;
       const nextWork = currentIndex < pool.length - 1 ? pool[currentIndex + 1] : null;
 
-      const relatedWorks = (work.relatedSlugs || [])
-        .map(rSlug => publishedWorks.find(w => w.slug === rSlug))
+      const relatedSlugList = Array.isArray(work.relatedSlugs) ? work.relatedSlugs
+        : (typeof work.relatedSlugs === 'string' ? work.relatedSlugs.split(/[,，;；、]/) : []);
+      const relatedWorks = relatedSlugList
+        .map(rSlug => publishedWorks.find(w => w.slug === String(rSlug).trim()))
         .filter(Boolean);
 
       const catObj = CATEGORIES.find(c => c.key === work.type);

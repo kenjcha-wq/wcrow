@@ -13,6 +13,7 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -104,6 +105,18 @@ function serializeFrontmatter(data) {
   return `---\n${lines.join('\n')}\n---\n`;
 }
 
+/** 把 tags / relatedSlugs 归一为字符串数组：兼容数组、逗号（中英文）分隔字符串、单个值 */
+function toStrArray(value) {
+  if (value === undefined || value === null || value === '') return [];
+  if (Array.isArray(value)) {
+    return value.map(v => String(v).trim()).filter(Boolean);
+  }
+  if (typeof value === 'string') {
+    return value.split(/[,，;；、]/).map(v => v.trim()).filter(Boolean);
+  }
+  return [String(value).trim()].filter(Boolean);
+}
+
 function toDateString(value) {
   if (!value) return '';
   const str = String(value);
@@ -158,10 +171,10 @@ function readWorks() {
         date: toDateString(data.date),
         summary: data.excerpt || '',
         coverImage: data.coverImage || '',
-        tags: Array.isArray(data.tags) ? data.tags : (data.tags ? [String(data.tags)] : []),
-        relatedSlugs: Array.isArray(data.relatedSlugs) ? data.relatedSlugs
-          : (data.relatedSlugs ? [String(data.relatedSlugs)] : []),
-        status: data.status || 'published',
+        tags: toStrArray(data.tags),
+        relatedSlugs: toStrArray(data.relatedSlugs),
+        // 草稿状态归一：只接受 published / draft 两种，其余一律按 published 处理
+        status: String(data.status || '').trim().toLowerCase() === 'draft' ? 'draft' : 'published',
         content: body,
         _file: rel,
         _collection: key
@@ -238,14 +251,20 @@ if (dup.length) {
   process.exit(1);
 }
 
+// 输出保持确定性（不含时间戳），这样 Actions 里 `git diff --quiet` 才能准确判断"内容没变"
+const fingerprint = crypto.createHash('sha256')
+  .update(JSON.stringify(works.map(w => [w.slug, w.title, w.date, w.status, w.content])))
+  .digest('hex').slice(0, 16);
+
 const index = {
-  generatedAt: new Date().toISOString(),
   source: 'content/',
   count: works.length,
+  fingerprint,
   works
 };
 fs.writeFileSync(INDEX_FILE, JSON.stringify(index, null, 2) + '\n', 'utf8');
 
 const byType = works.reduce((acc, w) => { acc[w.type] = (acc[w.type] || 0) + 1; return acc; }, {});
-console.log(`[build] ${works.length} 篇作品 → content-index.json（${Object.entries(byType).map(([k, v]) => `${k}:${v}`).join(' / ')}）`);
+console.log(`[build] ${works.length} 篇作品 → content-index.json（${Object.entries(byType).map(([k, v]) => `${k}:${v}`).join(' / ')}），指纹 ${fingerprint}`);
+console.log(`[build] 构建时间 ${new Date().toISOString()}（不写入索引，保证产物可复现）`);
 console.log(`[build] 索引大小 ${(fs.statSync(INDEX_FILE).size / 1024).toFixed(1)} KB`);
