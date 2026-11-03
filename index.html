@@ -1600,6 +1600,119 @@
         white-space: nowrap;
       }
     }
+
+    /* ==========================================================================
+       首页第二轮调整（增量覆盖层，仍只作用于首页容器）
+       目标一：桌面端撑开画报尺度，消除「A4 纸贴在黑板上」的收缩感
+       目标二：背景固定铺满视口，不再只糊在内容区那一块
+       目标三：移动端去掉 vh 依赖，消除地址栏伸缩导致的上下晃动
+       ========================================================================== */
+
+    /* 舞台与磁贴一起放宽到 960，左右 58/42 比例保持不变 */
+    .home-center-stage.home-center-stage--magazine {
+      max-width: 960px;
+    }
+
+    .featured-magazine-tile {
+      max-width: 960px;
+      min-height: 420px;
+      margin: 0 auto 36px;
+    }
+
+    .tile-cover-wrapper {
+      min-height: 420px;
+    }
+
+    .tile-content-wrapper {
+      padding: 40px 36px;
+    }
+
+    /* 标题层级放大，拉开与画报的呼吸距离 */
+    .home-center-stage--magazine .home-stage-header {
+      margin-bottom: 48px;
+    }
+
+    .home-center-stage--magazine .home-main-title {
+      font-size: 2.8rem;
+      letter-spacing: 4px;
+      margin-bottom: 12px;
+    }
+
+    .home-center-stage--magazine .home-sub-slogan {
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      opacity: 0.8;
+    }
+
+    /* 桌面/平板：背景层 fixed 铺满视口（用 inset:0 而不是 100vw，避免横向溢出），
+       滚动时背景不动；父级 overflow:hidden 对它不再生效，故用 scale(1.08) 兜边 */
+    @media (min-width: 681px) {
+      .home-magazine-layout .home-bg-artwork-layer {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: auto;
+        height: auto;
+        z-index: 0;
+      }
+    }
+
+    /* 移动端：全部换成 px / 内容自适应高度，彻底移除 vh 单位带来的抖动 */
+    @media (max-width: 680px) {
+      .home-editorial-wrapper.home-magazine-layout {
+        min-height: auto;
+        padding: 18px 16px 26px;
+      }
+
+      /* 手机上保持绝对定位：背景随页面滚动，避免 fixed + 大模糊在移动端的重绘抖动 */
+      .home-magazine-layout .home-bg-artwork-layer {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: auto;
+        height: auto;
+      }
+
+      .home-center-stage--magazine .home-stage-header {
+        margin: 8px 0 24px;
+      }
+
+      .home-center-stage--magazine .home-main-title {
+        font-size: 2rem;
+        letter-spacing: 3px;
+        margin-bottom: 8px;
+      }
+
+      .home-center-stage--magazine .home-sub-slogan {
+        font-size: 0.95rem;
+        letter-spacing: 2px;
+      }
+
+      .featured-magazine-tile {
+        min-height: auto;
+      }
+
+      .tile-cover-wrapper {
+        min-height: 220px;
+        height: 220px;
+      }
+
+      .tile-content-wrapper {
+        padding: 24px 20px;
+      }
+
+      .home-categories-bar {
+        margin-bottom: 20px;
+      }
+
+      .home-footer-search-wrap {
+        padding: 0 10px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -2962,14 +3075,14 @@
               <a href="#/archive/series">系列日志</a>
             </nav>
 
-            <!-- 底部轻量检索与随缘漫游 -->
+            <!-- 底部轻量检索与随心漫游 -->
             <div class="home-footer-search-wrap">
               <div class="editorial-search-capsule">
                 <input type="text" id="homeSearchInput" class="editorial-search-input"
-                       placeholder="在井底语料与断片中检索……"
+                       placeholder="检索语料与断片..."
                        aria-label="检索作品语料库"
                        autocomplete="off">
-                <button id="randomPickBtn" class="search-random-btn" type="button" title="随缘翻一篇">🎲 随缘</button>
+                <button id="randomPickBtn" class="search-random-btn" type="button" title="随心漫游一篇">随心而阅</button>
                 <button id="searchClearBtn" class="search-clear-btn" type="button" aria-label="清空输入">✕</button>
               </div>
 
@@ -3055,7 +3168,7 @@
     };
 
     /**
-     * 「随缘」与「指路标签」：一次性事件委托，避免每次 renderHomeView 重复注册全局监听
+     * 「随心而阅」与「指路标签」：一次性事件委托，避免每次 renderHomeView 重复注册全局监听
      */
     (function bindHomeMagazineDelegation() {
       if (window.__crowHomeDelegationBound) return;
