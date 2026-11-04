@@ -3603,6 +3603,229 @@
       }
     }
 
+    /* ==========================================================================
+       阅读页：软包排版（限宽、行距、段距、图片呼吸感）+ 分页导航 + 进度条
+       ========================================================================== */
+
+    /* 1. 正文容器：限宽居中、极宽行距 */
+    .reader-container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 28px 24px 56px;
+    }
+
+    .reader-body {
+      font-size: 1.05rem;
+      line-height: 2;
+      letter-spacing: 0.5px;
+      color: var(--color-text-main);
+      text-align: justify;
+      word-break: break-word;
+    }
+
+    /* 2. 段落之间拉开距离（软包） */
+    .reader-body p {
+      margin: 0 0 1.5em 0;
+      text-align: justify;
+      text-justify: inter-ideograph;
+    }
+
+    .reader-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* 3. 随文插图：上下大留白 + 微圆角 + 极淡投影 */
+    .reader-inline-figure {
+      margin: 34px auto;
+      max-width: 100%;
+    }
+
+    .reader-inline-img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin: 0 auto;
+      border-radius: 4px;
+      box-shadow: 0 8px 24px rgba(52, 40, 30, 0.08);
+    }
+
+    body.dark-mode .reader-inline-img {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+    }
+
+    .reader-inline-caption {
+      margin-top: 10px;
+      font-size: 0.78rem;
+      letter-spacing: 1px;
+      color: var(--color-text-subtle);
+      text-align: center;
+    }
+
+    /* 4. 顶部信息：居中、下方一条细线 */
+    .reader-header {
+      text-align: center;
+      margin: 8px 0 40px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--color-border-subtle);
+    }
+
+    .reader-meta-info {
+      font-size: 0.82rem;
+      letter-spacing: 1.5px;
+      color: var(--color-text-subtle);
+      margin-bottom: 14px;
+    }
+
+    .reader-page-mark {
+      color: var(--color-text-subtle);
+    }
+
+    .reader-title {
+      font-size: 2rem;
+      font-weight: 600;
+      line-height: 1.45;
+      letter-spacing: 1px;
+      margin: 0;
+    }
+
+    .reader-cover {
+      margin-bottom: 36px;
+      border-radius: 3px;
+    }
+
+    /* 5. 页内翻页条 */
+    .reader-page-pager {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 40px 0 0;
+      padding-top: 18px;
+      border-top: 1px solid var(--color-border-subtle);
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      color: var(--color-text-muted);
+    }
+
+    .reader-page-pager .page-step {
+      color: inherit;
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+
+    .reader-page-pager a.page-step:hover,
+    .reader-page-pager a.page-step:focus-visible {
+      color: var(--color-accent);
+    }
+
+    .reader-page-pager .page-step.is-disabled {
+      color: var(--color-text-subtle);
+      opacity: 0.55;
+      cursor: default;
+    }
+
+    .reader-page-pager .page-position {
+      font-variant-numeric: tabular-nums;
+      color: var(--color-text-subtle);
+      letter-spacing: 0.14em;
+    }
+
+    /* 6. 底部作品导航：← 上一篇 | 目录 | 下一篇 → */
+    .series-pager {
+      align-items: stretch;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    .series-pager .pager-slot {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 14px 16px;
+      border: 1px solid var(--color-border-subtle);
+      border-radius: 2px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color var(--transition), color var(--transition);
+    }
+
+    .series-pager .pager-slot.toc {
+      flex: 0 0 auto;
+      align-items: center;
+      justify-content: center;
+      min-width: 86px;
+      font-family: var(--font-ui);
+      letter-spacing: 0.2em;
+      color: var(--color-text-muted);
+    }
+
+    .series-pager a.pager-slot:hover,
+    .series-pager a.pager-slot:focus-visible {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+    }
+
+    .series-pager .pager-slot.is-disabled {
+      opacity: 0.4;
+      color: var(--color-text-subtle);
+    }
+
+    .series-pager .pager-slot.next {
+      text-align: right;
+      align-items: flex-end;
+    }
+
+    /* 7. 极细阅读进度条（渐变） */
+    .read-progress {
+      height: 2px;
+      background-color: transparent;
+      background-image: linear-gradient(90deg, rgba(143, 61, 47, 0.35), var(--color-accent));
+      transition: width 0.1s linear;
+    }
+
+    body.dark-mode .read-progress {
+      background-image: linear-gradient(90deg, rgba(192, 122, 94, 0.3), var(--color-accent));
+    }
+
+    /* 手机端：留白略收，标题略小，翻页条保持一指可点 */
+    @media (max-width: 680px) {
+      .reader-container {
+        padding: 14px 18px 44px;
+      }
+
+      .reader-body {
+        font-size: 1rem;
+        line-height: 1.95;
+        letter-spacing: 0.4px;
+      }
+
+      .reader-title {
+        font-size: 1.6rem;
+      }
+
+      .reader-meta-info {
+        font-size: 0.76rem;
+        letter-spacing: 1px;
+        line-height: 1.7;
+      }
+
+      .reader-header {
+        margin-bottom: 30px;
+        padding-bottom: 18px;
+      }
+
+      .series-pager {
+        flex-wrap: wrap;
+      }
+
+      .series-pager .pager-slot {
+        padding: 12px 14px;
+        min-height: 44px;
+        justify-content: center;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -3763,7 +3986,7 @@
        ========================================================================== */
     const CATEGORIES = [
       { key: 'all', title: '全部', desc: '「乌鸦与井」收录的全部小说、文学系列与札记语料。' },
-      { key: 'series', title: '文学系列', desc: '包括《兰州美食图鉴》与《暗夜事件报告》等短篇小说集或长篇小说。' },
+      { key: 'series', title: '文学系列', desc: '包括《兰州美食图鉴》与《井底观察日志》等互文性叙事系列。' },
       { key: 'novel-short', title: '短篇小说', desc: '单篇独立的虚构叙事与冷峻速写。' },
       { key: 'novel-long', title: '长篇小说', desc: '连贯叙事与大型结构作品。' },
       { key: 'essay', title: '随笔与札记', desc: '在时间边缘记录的直觉断片、器物与空间备忘。' }
@@ -4730,7 +4953,7 @@
        ========================================================================== */
     /* 阅读页字号档位：-2 ~ +2，默认 0（1.125rem）。
        沿用既有 A- / A+ 按钮与 applyFontSize 实现，仅新增「记住上次选择」。 */
-    const READER_FONT_SIZES = ['0.9rem', '1rem', '1.125rem', '1.25rem', '1.375rem'];
+    const READER_FONT_SIZES = ['0.92rem', '1rem', '1.05rem', '1.18rem', '1.32rem'];
     const FONT_LEVEL_MIN = 0;
     const FONT_LEVEL_MAX = READER_FONT_SIZES.length - 1;
     const FONT_STORE_KEY = 'crow_well_reader_font_level';
@@ -4871,8 +5094,10 @@
 
       // 1. 作品阅读页: #/works/{slug}
       if (cleanHash.startsWith('#/works/')) {
-        const slug = cleanHash.replace('#/works/', '').trim();
-        renderReaderView(main, slug);
+        const rest = cleanHash.replace('#/works/', '').trim();
+        const [slugPart, pagePart] = rest.split('/');
+        const pageMatch = /^p(\d+)$/i.exec(pagePart || '');
+        renderReaderView(main, (slugPart || '').trim(), pageMatch ? Number(pageMatch[1]) : 1);
         return;
       }
 
@@ -5292,7 +5517,47 @@
     /**
      * 3. 独立作品阅读视图
      */
-    function renderReaderView(container, slug) {
+    /**
+     * 长文分页：优先按正文里单独成行的 `---` 切分；
+     * 否则按段落（空行）贪心装箱，单页上限 READER_PAGE_CHARS 字；
+     * 遇到"整篇只有一段"的老格式（段落之间只用单换行），再按行二次切分。
+     */
+    const READER_PAGE_CHARS = 3000;
+
+    function splitWorkIntoPages(content) {
+      const text = String(content || '');
+      if (!text.trim()) return [''];
+
+      const explicit = text.split(/\n[ \t]*---[ \t]*\n/).map(t => t.trim()).filter(Boolean);
+      if (explicit.length > 1) return explicit;
+      if (text.length <= READER_PAGE_CHARS) return [text];
+
+      // 以空行分块；单块超长时再按单换行拆成更小的块
+      let blocks = text.split(/\n\s*\n/).map(t => t.trim()).filter(Boolean);
+      const refined = [];
+      blocks.forEach(block => {
+        if (block.length <= READER_PAGE_CHARS) { refined.push(block); return; }
+        let buf = '';
+        block.split(/\n/).forEach(line => {
+          const next = buf ? buf + '\n' + line : line;
+          if (next.length > READER_PAGE_CHARS && buf) { refined.push(buf); buf = line; }
+          else { buf = next; }
+        });
+        if (buf) refined.push(buf);
+      });
+
+      const pages = [];
+      let current = '';
+      refined.forEach(block => {
+        const joined = current ? current + '\n\n' + block : block;
+        if (current && joined.length > READER_PAGE_CHARS) { pages.push(current); current = block; }
+        else { current = joined; }
+      });
+      if (current) pages.push(current);
+      return pages.length ? pages : [text];
+    }
+
+    function renderReaderView(container, slug, pageNo) {
       const work = publishedWorks.find(w => w.slug === slug);
       if (!work) {
         container.innerHTML = `
@@ -5307,6 +5572,12 @@
       }
 
       updatePageMeta(work.title, work.summary || work.title);
+
+      const pages = splitWorkIntoPages(work.content);
+      const totalPages = pages.length;
+      const pageIndex = Math.min(Math.max(1, Number(pageNo) || 1), totalPages);
+      const pageHref = (n) => (n === 1 ? `#/works/${work.slug}` : `#/works/${work.slug}/p${n}`);
+      const isPaginated = totalPages > 1;
 
       let pool = publishedWorks;
       if (work.series) {
@@ -5345,6 +5616,7 @@
                 <span>${catLabel}</span>
                 ${work.series ? `<span> · 《${work.series}》第 ${work.orderInSeries || 1} 卷</span>` : ''}
                 <span> / ${work.date}</span>
+                ${isPaginated ? `<span class="reader-page-mark">· 第 ${pageIndex} / ${totalPages} 页</span>` : ''}
               </div>
               <h1 class="reader-title">${work.title}</h1>
             </header>
@@ -5355,6 +5627,18 @@
 
             <div class="reader-body" id="readerBodyText"></div>
 
+            ${isPaginated ? `
+              <nav class="reader-page-pager" aria-label="分页导航">
+                ${pageIndex > 1
+                  ? `<a href="${pageHref(pageIndex - 1)}" class="page-step prev">← 上一页</a>`
+                  : `<span class="page-step is-disabled">← 上一页</span>`}
+                <span class="page-position">${pageIndex} / ${totalPages}</span>
+                ${pageIndex < totalPages
+                  ? `<a href="${pageHref(pageIndex + 1)}" class="page-step next">继续阅读 →</a>`
+                  : `<span class="page-step is-disabled">已读完</span>`}
+              </nav>
+            ` : ''}
+
             <footer class="reader-context-footer">
               <nav class="series-pager" aria-label="作品切换导航">
                 ${prevWork ? `
@@ -5362,13 +5646,16 @@
                     <span class="pager-label">← 上一篇</span>
                     <span class="pager-title">${prevWork.title}</span>
                   </a>
-                ` : `<div style="flex:1;"></div>`}
+                ` : `<span class="pager-slot is-disabled"><span class="pager-label">← 上一篇</span></span>`}
+                <a href="#/archive/${work.type}" class="pager-slot toc">
+                  <span class="pager-label">目录</span>
+                </a>
                 ${nextWork ? `
                   <a href="#/works/${nextWork.slug}" class="pager-slot next">
                     <span class="pager-label">下一篇 →</span>
                     <span class="pager-title">${nextWork.title}</span>
                   </a>
-                ` : `<div style="flex:1;"></div>`}
+                ` : `<span class="pager-slot is-disabled"><span class="pager-label">下一篇 →</span></span>`}
               </nav>
 
               <!-- 低调的写信给作者入口 -->
@@ -5402,7 +5689,7 @@
       }
 
       const bodyEl = container.querySelector('#readerBodyText');
-      renderSafeParagraphs(bodyEl, work.content);
+      renderSafeParagraphs(bodyEl, pages[pageIndex - 1]);
 
       const coverImg = container.querySelector('#readerCoverImg');
       if (coverImg) {
